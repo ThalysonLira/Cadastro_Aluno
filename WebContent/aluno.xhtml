@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta charset="utf-8" name="viewport"
+		content="width=device-width, initial-scale=1"
+		http-equiv="X-UA-Conpatible" />
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<title>Cadastro de Aluno</title>
+
+</h:head>
+
+<h:body>
+	<div class="container">
+
+		<div class="navbar navbar-inverse">
+			<div class="navbar-brand" style="width: 100%; text-align: center;">
+				<a title="Recarregar Página" href="aluno.xhtml"> <strong>Cadastro
+						de Aluno</strong>
+				</a>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12 col-xs-updated">
+				<h:form styleClass="form-horizontal">
+					<h4>
+						<strong>Dados Pessoais</strong>
+					</h4>
+
+					<h:messages id="messages" style="color:red" globalOnly="false" />
+
+					<div class="mb-3">
+						<h:outputLabel value="Id:" styleClass="control-label" />
+						<h:inputText id="itIdUsuario" value="#{alunoController.aluno.id}"
+							styleClass="form-control" required="true"
+							requiredMessage="O campo Id deve ser informado.">
+							<!-- <f:ajax execute="@this" render="messages" event="blur"
+								listener="#{usuarioController.verificarId}" /> PROBLEMA NA INSERÇÃO DOS DADOS-->
+						</h:inputText>
+						<h:message for="itIdUsuario" style="color:red" />
+					</div>
+
+					<div class="mb-3">
+						<h:outputLabel value="Nome:" styleClass="control-label" />
+						<h:inputText id="itNome" value="#{alunoController.aluno.nome}"
+							styleClass="form-control" required="true"
+							requiredMessage="O campo Nome deve ser informado.">
+							<f:validateLength minimum="1" maximum="60" />
+						</h:inputText>
+						<h:message for="itNome" style="color:red" />
+					</div>
+
+					<div class="mb-3">
+						<h:outputLabel value="Cpf:" styleClass="control-label" />
+						<h:inputText id="itCpf" value="#{alunoController.aluno.cpf}"
+							styleClass="form-control" required="true"
+							requiredMessage="O campo Cpf deve ser informado.">
+						</h:inputText>
+						<h:message for="itCpf" style="color:red" />
+					</div>
+
+					<hr />
+
+					<div class="row">
+						<div class="col-md-12">
+							<h4>
+								<strong>Endereço</strong>
+							</h4>
+
+							<div class="col-md-12">
+								<h:outputLabel value="Rua:" styleClass="control-label" />
+								<h:inputText id="itRua"
+									value="#{alunoController.aluno.endereco.rua}"
+									styleClass="form-control" required="true"
+									requiredMessage="O campo Rua deve ser informado." />
+								<h:message for="itRua" style="color:red" />
+							</div>
+
+							<div class="col-md-4">
+								<h:outputLabel value="Número:" styleClass="control-label" />
+								<h:inputText id="itNumero"
+									value="#{alunoController.aluno.endereco.numero}"
+									styleClass="form-control" required="true"
+									requiredMessage="O campo Número deve ser informado." />
+								<h:message for="itNumero" style="color:red" />
+							</div>
+
+							<div class="col-md-8">
+								<h:outputLabel value="Cep:" styleClass="control-label" />
+								<h:inputText id="itCep"
+									value="#{alunoController.aluno.endereco.cep}"
+									styleClass="form-control" required="true"
+									requiredMessage="O campo Cep deve ser informado.">
+									<f:validateRegex pattern="[0-9]{5}[-][0-9]{3}" />
+								</h:inputText>
+								<h:message for="itCep" style="color:red" />
+							</div>
+
+							<div class="col-md-6">
+								<h:outputLabel value="Cidade:" styleClass="control-label" />
+								<h:inputText id="itCidade"
+									value="#{alunoController.aluno.endereco.cidade}"
+									styleClass="form-control" required="true"
+									requiredMessage="O campo Cidade deve ser informado." />
+								<h:message for="itCidade" style="color:red" />
+							</div>
+
+							<div class="col-md-6">
+								<h:outputLabel value="Estado:" styleClass="control-label" />
+								<h:inputText id="itEstado"
+									value="#{alunoController.aluno.endereco.estado}"
+									styleClass="form-control" required="true"
+									requiredMessage="O campo Estado deve ser informado." />
+								<h:message for="itEstado" style="color:red" />
+							</div>
+						</div>
+					</div>
+
+					<hr />
+
+					<div class="row">
+						<div class="col-md-6">
+							<h4>
+								<strong>Telefone</strong>
+							</h4>
+
+							<div class="col-md-4">
+								<h:outputLabel value="DDD:" styleClass="control-label" />
+								<h:inputText id="itCodigoArea"
+									value="#{alunoController.telefone.codigoArea}"
+									styleClass="form-control" />
+							</div>
+
+							<div class="col-md-8">
+								<h:outputLabel value="Número:" styleClass="control-label" />
+								<h:inputText id="itTelNum"
+									value="#{alunoController.telefone.numero}"
+									styleClass="form-control" />
+							</div>
+
+							<div class="col-md-12" style="padding-top: 10px;">
+								<h:commandButton id="btnAddNum" value="Adicionar Número"
+									styleClass="btn btn-primary form-control"
+									actionListener="#{alunoController.adicionarTelefone}">
+									<f:ajax execute="itCodigoArea itTelNum"
+										render="dtTelefone itCodigoArea itTelNum msgTelefone" />
+								</h:commandButton>
+								<h:message id="msgTelefone"
+									for="itCodigoArea itTelNum btnAddNum" style="color:red" />
+							</div>
+
+							<div class="col-md-12">
+								<h:dataTable id="dtTelefone"
+									value="#{alunoController.aluno.listaTelefone}" var="obj"
+									styleClass="table table-striped table-hover">
+									<h:column>
+										<f:facet name="header">DDD</f:facet>
+										<h:outputLabel value="#{obj.codigoArea}" />
+									</h:column>
+
+									<h:column>
+										<f:facet name="header">Número</f:facet>
+										<h:outputLabel value="#{obj.numero}" />
+									</h:column>
+
+									<h:column>
+										<h:commandButton value="Remover" styleClass="btn btn-danger"
+											actionListener="#{usuarioController.removerTelefone(obj)}" />
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+
+					<hr />
+
+					<div class="row">
+						<div class="col-md-3">
+							<h:commandButton value="Incluir"
+								disabled="#{alunoController.aluno.id != null}"
+								actionListener="#{alunoController.incluir}"
+								styleClass="col-md-2 mb-3 btn btn-default form-control">
+								<f:ajax execute="@form" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+
+						<div class="col-md-3">
+							<h:commandButton value="Alterar"
+								disabled="#{alunoController.aluno.id == null}"
+								actionListener="#{alunoController.alterar}"
+								styleClass="btn btn-default form-control">
+								<f:ajax execute="@form" render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+
+						<div class="col-md-3">
+							<h:commandButton value="Excluir"
+								disabled="#{alunoController.aluno.id == null}"
+								actionListener="#{alunoController.excluir}"
+								styleClass="col-md-2 mb-3 btn btn-default form-control">
+								<f:ajax render="@form formDataTable" />
+							</h:commandButton>
+						</div>
+
+						<div class="col-md-3">
+							<h:commandButton value="Limpar"
+								actionListener="#{alunoController.limpar}"
+								styleClass="col-md-2 mb-3 btn btn-default form-control" />
+						</div>
+					</div>
+
+				</h:form>
+
+				<hr />
+
+				<h:form id="formDataTable" styleClass="form-horizontal">
+					<div class="md-3">
+						<h:dataTable value="#{alunoController.listaAluno}" var="obj"
+							styleClass="table table-striped table-hover">
+							<h:column>
+								<f:facet name="header">Id</f:facet>
+								<h:outputLabel value="#{obj.id}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Nome</f:facet>
+								<h:commandLink value="#{obj.nome}"
+									actionListener="#{alunoController.editar(obj)}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">CPF</f:facet>
+								<h:outputLabel value="#{obj.cpf}" />
+							</h:column>
+						</h:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>
